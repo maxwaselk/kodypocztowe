@@ -3,10 +3,19 @@
 :root {
     --primary-color: #4a69bd;
     --secondary-color: #6a89cc;
-    --background-color: #1e3799;
-    --text-color: #ffffff;
+    --background-color: #f5f6fa;
+    --text-color: #2f3640;
     --error-color: #eb2f06;
     --success-color: #44bd32;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1e272e;
+        --text-color: #dcdde1;
+        --shadow-color: rgba(255, 255, 255, 0.1);
+    }
 }
 
 * {
@@ -23,51 +32,28 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 3rem;
+    background: var(--background-color);
+    box-shadow: 0 8px 20px var(--shadow-color);
+    border-radius: 15px;
+    padding: 2rem;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    position: relative;
-    z-index: 1;
-}
-
-.background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    max-width: 400px;
+    transition: all 0.3s ease;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
-    color: var(--text-color);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    color: var(--primary-color);
 }
 
 .description {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     font-weight: 300;
     color: var(--text-color);
     opacity: 0.8;
@@ -75,90 +61,64 @@ h1 {
 
 .input-group {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 input {
     width: 100%;
-    padding: 10px 0;
+    padding: 12px 0;
     font-size: 16px;
-    color: var(--text-color);
     border: none;
-    border-bottom: 1px solid var(--text-color);
+    border-bottom: 2px solid var(--primary-color);
     outline: none;
     background: transparent;
-    transition: 0.3s;
+    color: var(--text-color);
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--secondary-color);
 }
 
 label {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 10px 0;
-    font-size: 16px;
+    padding: 12px 0;
+    font-size: 14px;
     color: var(--text-color);
     pointer-events: none;
-    transition: 0.3s;
-}
-
-.line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--secondary-color);
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
 input:focus ~ label,
 input:valid ~ label {
-    top: -20px;
+    top: -24px;
     font-size: 12px;
     color: var(--secondary-color);
 }
 
-input:focus ~ .line,
-input:valid ~ .line {
-    width: 100%;
-}
-
 button {
     width: 100%;
-    padding: 10px;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
+    padding: 12px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    position: relative;
+    transition: background 0.3s ease;
 }
 
-button span {
-    z-index: 1;
-    transition: 0.3s;
+button:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
 }
 
 button .icon {
-    position: absolute;
-    right: -30px;
-    transition: 0.3s;
-    opacity: 0;
-}
-
-button:hover .icon {
-    right: 10px;
-    opacity: 1;
-}
-
-button:hover span {
-    transform: translateX(-15px);
+    margin-left: 10px;
 }
 
 .result {
@@ -169,7 +129,7 @@ button:hover span {
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
-    transition: 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .result.show {
@@ -177,68 +137,16 @@ button:hover span {
     transform: translateY(0);
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255,255,255,.3);
-    border-radius: 50%;
-    border-top-color: var(--text-color);
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 10px;
-}
-/* For tablets */
-@media (max-width: 768px) {
-    .container {
-        padding: 2rem;
-        width: 100%;
-        max-width: 600px;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .description {
-        font-size: 1rem;
-    }
-
-    button {
-        font-size: 14px;
-    }
-}
-
-/* For mobile phones */
-@media (max-width: 480px) {
-    .container {
-        padding: 1.5rem;
-        width: 100%;
-        max-width: 400px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    .description {
-        font-size: 0.9rem;
-    }
-
-    input, label {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    .result {
-        font-size: 14px;
-    }
+/* Animacja tła */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('https://example.com/your-image.jpg'); /* Możesz wstawić link do grafiki */
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px) brightness(0.7);
 }
